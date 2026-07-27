@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Omnitrix")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3107d08d714e8517adf8629f3848bd0a60d7b819")]
 [assembly: System.Reflection.AssemblyProductAttribute("Omnitrix")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Omnitrix")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

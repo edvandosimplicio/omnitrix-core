@@ -1,0 +1,13 @@
+CREATE DATABASE OminitrixDB;
+GO
+
+USE OminitrixDB;
+GO
+
+CREATE TABLE Planeta
+(
+    IdPlaneta INT PRIMARY KEY IDENTITY(1,1),
+    Nome VARCHAR(50) NOT NULL,
+    Galaxia VARCHAR(50) NOT NULL
+);
+GO
