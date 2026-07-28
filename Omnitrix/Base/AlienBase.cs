@@ -18,15 +18,6 @@ public abstract class AlienBase : ITransformacao
         Especie = especie;
         PlanetaOrigem = planetaOrigem;
         ForcaBase = forcaBase;
-
-        if (TempoMaximoTransformacaoEmSegundos < 0)
-        {
-            TempoMaximoTransformacaoEmSegundos = 0;
-        }
-        if (TempoMaximoTransformacaoEmSegundos > 600)
-        {
-            TempoMaximoTransformacaoEmSegundos = 600;
-        }
     }
 
     protected AlienBase(int id, string nome, string especie, string planetaOrigem, int forcaBase) : this(nome, especie, planetaOrigem, forcaBase)
@@ -46,13 +37,23 @@ public abstract class AlienBase : ITransformacao
 
     public virtual void Atacar()
     {
-        int custoTempo = ForcaBase / 2;
-        TempoMaximoTransformacaoEmSegundos -= custoTempo;
+        int custoTempoEmSegundos = ForcaBase / 2;
+
+        TempoMaximoTransformacaoEmSegundos -= custoTempoEmSegundos;
+
+        if (TempoMaximoTransformacaoEmSegundos < 0)
+        {
+            TempoMaximoTransformacaoEmSegundos = 0;
+        }
+
+        TimeSpan tempoConsumido = TimeSpan.FromSeconds(custoTempoEmSegundos);
+        TimeSpan tempoRestante = TimeSpan.FromSeconds(TempoMaximoTransformacaoEmSegundos);
+
         Console.WriteLine($"{Nome} desferiu um ataque base com força de {ForcaBase}.");
         Thread.Sleep(3000);
-        Console.WriteLine($"Foi consumido um valor de energia do Omnitrix equivalente á {custoTempo / 60} minutos.");
+        Console.WriteLine($"Foi consumido um valor de energia do Omnitrix equivalente a {tempoConsumido.Minutes} minutos e {tempoConsumido.Seconds} segundos.");
         Thread.Sleep(4500);
-        Console.WriteLine($"Restam {TempoMaximoTransformacaoEmSegundos / 60} minutos da sua atual transformação.");
+        Console.WriteLine($"Restam {tempoRestante.Minutes} minutos e {tempoRestante.Seconds} seundos da sua atual transformação.");
         Thread.Sleep(4500);
         Console.Clear();
     }

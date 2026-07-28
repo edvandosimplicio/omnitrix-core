@@ -1,56 +1,55 @@
 (function () {
     'use strict'; angular.module('omnitrixApp', []).controller('AlienController', AlienController);
 
-    AlienController.$inject = ['$http'];
+    AlienController.$inject = ['$scope', '$http'];
 
-    function AlienController($http) {
-        var vm = this;
+    function AlienController($scope, $http) {
 
-        vm.aliens = [];
-        vm.especiesDisponiveis = [];
-        vm.busca = '';
-        vm.especieSelecionada = '';
-        vm.forcaMinima = null;
-        vm.carregando = true;
-        vm.erro = '';
+        $scope.aliens = [];
+        $scope.especiesDisponiveis = [];
+        $scope.busca = '';
+        $scope.especieSelecionada = '';
+        $scope.forcaMinima = null;
+        $scope.carregando = true;
+        $scope.erro = '';
 
-        vm.filtrarAliens = filtrarAliens;
-        vm.limparFiltros = limparFiltros;
-        vm.obterImagemAlien = obterImagemAlien;
-        vm.gerarDescricao = gerarDescricao;
-        vm.obterNome = obterNome;
-        vm.obterEspecie = obterEspecie;
-        vm.obterPlaneta = obterPlaneta;
-        vm.obterForca = obterForca;
+        $scope.filtrarAliens = filtrarAliens;
+        $scope.limparFiltros = limparFiltros;
+        $scope.obterImagemAlien = obterImagemAlien;
+        $scope.gerarDescricao = gerarDescricao;
+        $scope.obterNome = obterNome;
+        $scope.obterEspecie = obterEspecie;
+        $scope.obterPlaneta = obterPlaneta;
+        $scope.obterForca = obterForca;
 
         var urlApi = 'https://gist.githubusercontent.com/edvandosimplicio/88943f13c2effed750ed3081deca4ab5/raw/8ed2da1c1b6dacd6d0e09efca6ab3a449b0a37cd/apiv2-ben10-aliens.json';
 
         carregarAliens();
 
         function carregarAliens() {
-            vm.carregando = true;
-            vm.erro = '';
+            $scope.carregando = true;
+            $scope.erro = '';
 
             $http.get(urlApi)
                 .then(function (response) {
-                    vm.aliens = response.data || [];
+                    $scope.aliens = response.data || [];
                     montarListaDeEspecies();
 
-                    console.log('Aliens carregados:', vm.aliens);
+                    console.log('Aliens carregados:', $scope.aliens);
                 })
                 .catch(function (error) {
                     console.error('Erro ao carregar aliens:', error);
-                    vm.erro = 'Não foi possível carregar os aliens. Verifique sua conexão ou tente novamente.';
+                    $scope.erro = 'Não foi possível carregar os aliens. Verifique sua conexão ou tente novamente.';
                 })
                 .finally(function () {
-                    vm.carregando = false;
+                    $scope.carregando = false;
                 });
         }
 
         function montarListaDeEspecies() {
             var especies = {};
 
-            vm.aliens.forEach(function (alien) {
+            $scope.aliens.forEach(function (alien) {
                 var especie = obterEspecie(alien);
 
                 if (especie) {
@@ -58,11 +57,11 @@
                 }
             });
 
-            vm.especiesDisponiveis = Object.keys(especies).sort();
+            $scope.especiesDisponiveis = Object.keys(especies).sort();
         }
 
         function filtrarAliens(alien) {
-            var textoBusca = normalizarTexto(vm.busca);
+            var textoBusca = normalizarTexto($scope.busca);
 
             var nome = normalizarTexto(obterNome(alien));
             var especie = normalizarTexto(obterEspecie(alien));
@@ -71,31 +70,28 @@
             var passouNaBusca = true;
 
             if (textoBusca) {
-                passouNaBusca =
-                    nome.includes(textoBusca) ||
-                    especie.includes(textoBusca) ||
-                    planeta.includes(textoBusca);
+                passouNaBusca = nome.includes(textoBusca) || especie.includes(textoBusca) || planeta.includes(textoBusca);
             }
 
             var passouNaEspecie = true;
 
-            if (vm.especieSelecionada) {
-                passouNaEspecie = obterEspecie(alien) === vm.especieSelecionada;
+            if ($scope.especieSelecionada) {
+                passouNaEspecie = obterEspecie(alien) === $scope.especieSelecionada;
             }
 
             var passouNaForca = true;
 
-            if (vm.forcaMinima) {
-                passouNaForca = obterForca(alien) >= vm.forcaMinima;
+            if ($scope.forcaMinima) {
+                passouNaForca = obterForca(alien) >= $scope.forcaMinima;
             }
 
             return passouNaBusca && passouNaEspecie && passouNaForca;
         }
 
         function limparFiltros() {
-            vm.busca = '';
-            vm.especieSelecionada = '';
-            vm.forcaMinima = null;
+            $scope.busca = '';
+            $scope.especieSelecionada = '';
+            $scope.forcaMinima = null;
         }
 
         function obterImagemAlien(alien) {
@@ -139,26 +135,15 @@
         }
 
         function obterPlaneta(alien) {
-            return alien.homeworld
-                || alien.planetaOrigem
-                || alien.planet
-                || alien.planeta
-                || 'Desconhecido';
+            return alien.homeworld || alien.planetaOrigem || 'Desconhecido';
         }
 
         function obterForca(alien) {
-            return alien.strength
-                || alien.forcaBase
-                || alien.forca
-                || 85;
+            return alien.strength || alien.forcaBase || alien.forca || 85;
         }
 
         function normalizarTexto(texto) {
-            return (texto || '')
-                .toString()
-                .toLowerCase()
-                .normalize('NFD')
-                .replace(/[\u0300-\u036f]/g, '');
+            return (texto || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         }
     }
 })();

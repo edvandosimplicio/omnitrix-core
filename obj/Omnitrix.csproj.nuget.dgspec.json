@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Edvando Simplicio\\projetos\\ProjectBen10-Omnitrix\\Omnitrix\\Omnitrix.csproj": {}
+    "C:\\Users\\Edvando Simplicio\\Projetos\\ProjectBen10-Omnitrix\\Omnitrix\\Omnitrix.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Edvando Simplicio\\projetos\\ProjectBen10-Omnitrix\\Omnitrix\\Omnitrix.csproj": {
+    "C:\\Users\\Edvando Simplicio\\Projetos\\ProjectBen10-Omnitrix\\Omnitrix\\Omnitrix.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Edvando Simplicio\\projetos\\ProjectBen10-Omnitrix\\Omnitrix\\Omnitrix.csproj",
+        "projectUniqueName": "C:\\Users\\Edvando Simplicio\\Projetos\\ProjectBen10-Omnitrix\\Omnitrix\\Omnitrix.csproj",
         "projectName": "Omnitrix",
-        "projectPath": "C:\\Users\\Edvando Simplicio\\projetos\\ProjectBen10-Omnitrix\\Omnitrix\\Omnitrix.csproj",
+        "projectPath": "C:\\Users\\Edvando Simplicio\\Projetos\\ProjectBen10-Omnitrix\\Omnitrix\\Omnitrix.csproj",
         "packagesPath": "C:\\Users\\Edvando Simplicio\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Edvando Simplicio\\projetos\\ProjectBen10-Omnitrix\\Omnitrix\\obj\\",
+        "outputPath": "C:\\Users\\Edvando Simplicio\\Projetos\\ProjectBen10-Omnitrix\\Omnitrix\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8Ns8GM3oCr0=",
+  "dgSpecHash": "0KuD/PATeso=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Edvando Simplicio\\projetos\\ProjectBen10-Omnitrix\\Omnitrix\\Omnitrix.csproj",
+  "projectFilePath": "C:\\Users\\Edvando Simplicio\\Projetos\\ProjectBen10-Omnitrix\\Omnitrix\\Omnitrix.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Edvando Simplicio\\.nuget\\packages\\microsoft.bcl.cryptography\\9.0.13\\microsoft.bcl.cryptography.9.0.13.nupkg.sha512",
     "C:\\Users\\Edvando Simplicio\\.nuget\\packages\\microsoft.data.sqlclient\\7.0.2\\microsoft.data.sqlclient.7.0.2.nupkg.sha512",

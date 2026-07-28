@@ -185,4 +185,33 @@ body {
     .header h1 {
         font-size: 36px;
     }
+
+    .sem-resultados {
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .mensagem-sem-resultados {
+        max-width: 520px;
+        padding: 32px;
+        border-radius: 20px;
+        background: rgba(0, 255, 115, 0.10);
+        border: 1px solid rgba(0, 255, 115, 0.35);
+        box-shadow: 0 0 30px rgba(0, 255, 115, 0.12);
+    }
+
+    .mensagem-sem-resultados h2 {
+        margin: 0 0 12px;
+        color: #00ff73;
+        font-size: 28px;
+    }
+
+    .mensagem-sem-resultados p {
+        margin: 0;
+        color: #d8ffe4;
+        font-size: 16px;
+    }
 }

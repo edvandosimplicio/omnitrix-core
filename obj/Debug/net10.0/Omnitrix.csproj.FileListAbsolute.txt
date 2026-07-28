@@ -57,3 +57,4 @@ C:\Users\Edvando Simplicio\projetos\ProjectBen10-Omnitrix\Omnitrix\obj\Debug\net
 C:\Users\Edvando Simplicio\projetos\ProjectBen10-Omnitrix\Omnitrix\obj\Debug\net10.0\Omnitrix.pdb
 C:\Users\Edvando Simplicio\projetos\ProjectBen10-Omnitrix\Omnitrix\obj\Debug\net10.0\Omnitrix.genruntimeconfig.cache
 C:\Users\Edvando Simplicio\projetos\ProjectBen10-Omnitrix\Omnitrix\obj\Debug\net10.0\ref\Omnitrix.dll
+C:\Users\Edvando Simplicio\Projetos\ProjectBen10-Omnitrix\Omnitrix\obj\Debug\net10.0\Omnitrix.sourcelink.json

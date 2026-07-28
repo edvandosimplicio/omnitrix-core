@@ -12,14 +12,23 @@ public class Pyronita : AlienBase
 
     public override void UsarPoderEspecial()
     {
-        int custoExplosaoSolar = ForcaBase * 2;
-        TempoMaximoTransformacaoEmSegundos -= custoExplosaoSolar;
+        int custoTempoEmSegundos = ForcaBase * 2;
+
+        TempoMaximoTransformacaoEmSegundos -= custoTempoEmSegundos;
+
+        if (TempoMaximoTransformacaoEmSegundos < 0)
+        {
+            TempoMaximoTransformacaoEmSegundos = 0;
+        }
+
+        TimeSpan tempoConsumido = TimeSpan.FromSeconds(custoTempoEmSegundos);
+        TimeSpan tempoRestante = TimeSpan.FromSeconds(TempoMaximoTransformacaoEmSegundos);
 
         Console.WriteLine($"{Nome} disparou uma \u001b[31mExplosão Solar ☄️\u001b[0m a {TemperaturaChama}°C!🔥!");
         Thread.Sleep(3000);
-        Console.WriteLine($"\nFoi consumido um valor de energia do Omnitrix equivalente á {custoExplosaoSolar / 60} minutos.");
+        Console.WriteLine($"\nFoi consumido um valor de energia equivalente a {tempoConsumido.Minutes} minutos e {tempoConsumido.Seconds} segundos.");
         Thread.Sleep(4500);
-        Console.WriteLine($"Restam {TempoMaximoTransformacaoEmSegundos / 60} minutos da sua atual transformação.");
+        Console.WriteLine($"Restam {tempoRestante.Minutes} minutos e {tempoRestante.Seconds} da transformação.");
         Thread.Sleep(4500);
         Console.Clear();
 

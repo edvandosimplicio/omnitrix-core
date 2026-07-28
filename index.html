@@ -11,12 +11,12 @@
     <script src="app.js"></script>
 </head>
 
-<body ng-controller="AlienController as vm">
+<body ng-controller="AlienController">
 
     <header class="header">
         <div class="header-content">
             <h1>Omnitrix</h1>
-            <p>Catálogo de aliens</p>
+            <p>Catálogo interativo de aliens disponíveis</p>
         </div>
     </header>
 
@@ -25,14 +25,14 @@
         <section class="painel">
             <div class="campo-busca">
                 <label>Buscar alien</label>
-                <input type="text" ng-model="vm.busca" placeholder="Digite nome, espécie ou planeta...">
+                <input type="text" ng-model="busca" placeholder="Digite nome, espécie ou planeta...">
             </div>
 
             <div class="campo-filtro">
                 <label>Filtrar por espécie</label>
-                <select ng-model="vm.especieSelecionada">
+                <select ng-model="especieSelecionada">
                     <option value="">Todas as espécies</option>
-                    <option ng-repeat="especie in vm.especiesDisponiveis" value="{{ especie }}">
+                    <option ng-repeat="especie in especiesDisponiveis" value="{{ especie }}">
                         {{ especie }}
                     </option>
                 </select>
@@ -40,63 +40,71 @@
 
             <div class="campo-filtro">
                 <label>Força mínima</label>
-                <input type="number" ng-model="vm.forcaMinima" placeholder="Ex: 80">
+                <input type="number" ng-model="forcaMinima" placeholder="Ex: 80">
             </div>
 
-            <button class="btn-limpar" ng-click="vm.limparFiltros()">
+            <button class="btn-limpar" ng-click="limparFiltros()">
                 Limpar filtros
             </button>
         </section>
 
-        <section class="status" ng-if="vm.carregando">
+        <section class="status" ng-if="carregando">
             <p>Carregando DNA dos aliens...</p>
         </section>
 
-        <section class="status erro" ng-if="vm.erro">
-            <p>{{ vm.erro }}</p>
+        <section class="status erro" ng-if="erro">
+            <p>{{ erro }}</p>
         </section>
 
-        <section class="resumo" ng-if="!vm.carregando && !vm.erro">
+        <section class="resumo" ng-if="!carregando && !erro">
             <p>
                 Exibindo
-                <strong>{{ (vm.aliens | filter:vm.filtrarAliens).length }}</strong>
+                <strong>{{ aliensFiltrados.length || 0 }}</strong>
                 de
-                <strong>{{ vm.aliens.length }}</strong>
+                <strong>{{ aliens.length }}</strong>
                 aliens disponíveis.
             </p>
         </section>
 
         <section class="grid-aliens">
-            <article class="card-alien" ng-repeat="alien in vm.aliens | filter:vm.filtrarAliens">
+            <article class="card-alien" ng-repeat="alien in aliensFiltrados = (aliens | filter:filtrarAliens)">
                 <div class="imagem-container">
-                    <img ng-src="{{ vm.obterImagemAlien(alien) }}" alt="{{ vm.obterNome(alien) }}" loading="lazy"
+                    <img ng-src="{{ obterImagemAlien(alien) }}" alt="{{ obterNome(alien) }}" loading="lazy"
                         referrerpolicy="no-referrer" onerror="this.src='assets/images/placeholder.png'">
                 </div>
 
                 <div class="card-conteudo">
-                    <h2>{{ alien.name }}</h2>
+                    <h2>{{ obterNome(alien) }}</h2>
 
                     <span class="tag-especie">
-                        {{ alien.species }}
+                        {{ obterEspecie(alien) }}
                     </span>
 
                     <p class="descricao">
-                        {{ vm.gerarDescricao(alien) }}
+                        {{ gerarDescricao(alien) }}
                     </p>
 
                     <div class="info">
                         <p>
                             <strong>Planeta:</strong>
-                            {{ alien.homeworld || 'Desconhecido' }}
+                            {{ obterPlaneta(alien) }}
                         </p>
 
                         <p>
                             <strong>Força:</strong>
-                            {{ alien.strength || 85 }}
+                            {{ obterForca(alien) }}
                         </p>
                     </div>
                 </div>
             </article>
+        </section>
+
+        <section class="sem-resultados"
+            ng-if="!carregando && !erro && aliens.length > 0 && aliensFiltrados.length === 0">
+            <div class="mensagem-sem-resultados">
+                <h2>Alienígena fora da base do seu Omnitrix.</h2>
+                <p>Tente buscar por outro nome, espécie ou planeta.</p>
+            </div>
         </section>
 
     </main>
