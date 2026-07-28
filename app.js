@@ -22,7 +22,7 @@
         $scope.obterPlaneta = obterPlaneta;
         $scope.obterForca = obterForca;
 
-        var urlApi = 'https://gist.githubusercontent.com/edvandosimplicio/88943f13c2effed750ed3081deca4ab5/raw/8ed2da1c1b6dacd6d0e09efca6ab3a449b0a37cd/apiv2-ben10-aliens.json';
+        var urlApi = 'https://gist.githubusercontent.com/edvandosimplicio/88943f13c2effed750ed3081deca4ab5/raw/53a8b0c16344eed3acb0f3bcfaae7026d559ad7d/apiv2-ben10-aliens.json';
 
         carregarAliens();
 

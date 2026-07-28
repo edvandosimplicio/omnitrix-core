@@ -38,7 +38,7 @@ public class Ben10DataIntegration
     {
         try
         {
-            string url = "https://gist.githubusercontent.com/edvandosimplicio/940806c7193640b909c3135b18cce9a9/raw/75f73c69b00aca4082a64c8ae315ea5ed648abc5/api-ben10-aliens.json";
+            string url = "https://gist.githubusercontent.com/edvandosimplicio/88943f13c2effed750ed3081deca4ab5/raw/53a8b0c16344eed3acb0f3bcfaae7026d559ad7d/apiv2-ben10-aliens.json";
 
             string jsonResposta = await _httpClient.GetStringAsync(url);
 
