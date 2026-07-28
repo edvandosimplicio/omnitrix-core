@@ -1,0 +1,188 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: radial-gradient(circle at top, #143d2b 0%, #07140f 45%, #020403 100%);
+    color: #f2fff7;
+    min-height: 100vh;
+}
+
+.header {
+    background: linear-gradient(90deg, #00ff73, #0c7a3d);
+    color: #03140a;
+    padding: 32px 20px;
+    text-align: center;
+    box-shadow: 0 4px 30px rgba(0, 255, 115, 0.25);
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 48px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+.header p {
+    margin: 8px 0 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.container {
+    width: min(1200px, 94%);
+    margin: 32px auto;
+}
+
+.painel {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 16px;
+    align-items: end;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(0, 255, 115, 0.25);
+    padding: 20px;
+    border-radius: 18px;
+    margin-bottom: 24px;
+    backdrop-filter: blur(8px);
+}
+
+.painel label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #9dffbf;
+}
+
+.painel input,
+.painel select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #1fbf63;
+    background: #06130d;
+    color: #ffffff;
+    outline: none;
+}
+
+.painel input:focus,
+.painel select:focus {
+    border-color: #00ff73;
+    box-shadow: 0 0 10px rgba(0, 255, 115, 0.4);
+}
+
+.btn-limpar {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 10px;
+    background: #00ff73;
+    color: #03140a;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-limpar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(0, 255, 115, 0.5);
+}
+
+.status,
+.resumo {
+    margin: 18px 0;
+    padding: 14px 18px;
+    border-radius: 12px;
+    background: rgba(0, 255, 115, 0.12);
+    border: 1px solid rgba(0, 255, 115, 0.25);
+}
+
+.erro {
+    background: rgba(255, 70, 70, 0.15);
+    border-color: rgba(255, 70, 70, 0.5);
+}
+
+.grid-aliens {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 22px;
+}
+
+.card-alien {
+    background: linear-gradient(180deg, rgba(13, 45, 29, 0.95), rgba(5, 15, 10, 0.95));
+    border: 1px solid rgba(0, 255, 115, 0.22);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    transition: 0.25s;
+}
+
+.card-alien:hover {
+    transform: translateY(-6px);
+    border-color: #00ff73;
+    box-shadow: 0 12px 30px rgba(0, 255, 115, 0.2);
+}
+
+.imagem-container {
+    height: 230px;
+    background: radial-gradient(circle, rgba(0, 255, 115, 0.18), rgba(0, 0, 0, 0.2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+}
+
+.imagem-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.card-conteudo {
+    padding: 18px;
+}
+
+.card-conteudo h2 {
+    margin: 0 0 10px;
+    font-size: 24px;
+    color: #00ff73;
+}
+
+.tag-especie {
+    display: inline-block;
+    background: rgba(0, 255, 115, 0.14);
+    color: #9dffbf;
+    border: 1px solid rgba(0, 255, 115, 0.35);
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.descricao {
+    color: #d8ffe4;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+.info {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info p {
+    margin: 6px 0;
+    color: #ffffff;
+}
+
+@media (max-width: 850px) {
+    .painel {
+        grid-template-columns: 1fr;
+    }
+
+    .header h1 {
+        font-size: 36px;
+    }
+}

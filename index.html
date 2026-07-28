@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR" ng-app="omnitrixApp">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Omnitrix - Catálogo de Aliens</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.js"></script>
+</head>
+
+<body ng-controller="AlienController as vm">
+
+    <header class="header">
+        <div class="header-content">
+            <h1>Omnitrix</h1>
+            <p>Catálogo de aliens</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section class="painel">
+            <div class="campo-busca">
+                <label>Buscar alien</label>
+                <input type="text" ng-model="vm.busca" placeholder="Digite nome, espécie ou planeta...">
+            </div>
+
+            <div class="campo-filtro">
+                <label>Filtrar por espécie</label>
+                <select ng-model="vm.especieSelecionada">
+                    <option value="">Todas as espécies</option>
+                    <option ng-repeat="especie in vm.especiesDisponiveis" value="{{ especie }}">
+                        {{ especie }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="campo-filtro">
+                <label>Força mínima</label>
+                <input type="number" ng-model="vm.forcaMinima" placeholder="Ex: 80">
+            </div>
+
+            <button class="btn-limpar" ng-click="vm.limparFiltros()">
+                Limpar filtros
+            </button>
+        </section>
+
+        <section class="status" ng-if="vm.carregando">
+            <p>Carregando DNA dos aliens...</p>
+        </section>
+
+        <section class="status erro" ng-if="vm.erro">
+            <p>{{ vm.erro }}</p>
+        </section>
+
+        <section class="resumo" ng-if="!vm.carregando && !vm.erro">
+            <p>
+                Exibindo
+                <strong>{{ (vm.aliens | filter:vm.filtrarAliens).length }}</strong>
+                de
+                <strong>{{ vm.aliens.length }}</strong>
+                aliens disponíveis.
+            </p>
+        </section>
+
+        <section class="grid-aliens">
+            <article class="card-alien" ng-repeat="alien in vm.aliens | filter:vm.filtrarAliens">
+                <div class="imagem-container">
+                    <img ng-src="{{ vm.obterImagemAlien(alien) }}" alt="{{ vm.obterNome(alien) }}" loading="lazy"
+                        referrerpolicy="no-referrer" onerror="this.src='assets/images/placeholder.png'">
+                </div>
+
+                <div class="card-conteudo">
+                    <h2>{{ alien.name }}</h2>
+
+                    <span class="tag-especie">
+                        {{ alien.species }}
+                    </span>
+
+                    <p class="descricao">
+                        {{ vm.gerarDescricao(alien) }}
+                    </p>
+
+                    <div class="info">
+                        <p>
+                            <strong>Planeta:</strong>
+                            {{ alien.homeworld || 'Desconhecido' }}
+                        </p>
+
+                        <p>
+                            <strong>Força:</strong>
+                            {{ alien.strength || 85 }}
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+    </main>
+
+</body>
+
+</html>
