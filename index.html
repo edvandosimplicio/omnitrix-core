@@ -15,7 +15,7 @@
 
     <header class="header">
         <div class="header-content">
-            <h1>Omnitrix</h1>
+            <img class="logo-omnitrix" src="Assets/images/omnitrix-logo.png" alt="Logo Omnitrix">
             <p>Catálogo interativo de aliens disponíveis</p>
         </div>
     </header>
@@ -67,34 +67,27 @@
         </section>
 
         <section class="grid-aliens">
-            <article class="card-alien" ng-repeat="alien in aliensFiltrados = (aliens | filter:filtrarAliens)">
+            <article class="card-alien card-clicavel"
+                ng-repeat="alien in aliensFiltrados = (aliens | filter:filtrarAliens)" ng-click="abrirModal(alien)"
+                ng-keydown="$event.key === 'Enter' && abrirModal(alien)" role="button" tabindex="0"
+                aria-label="Ver detalhes de {{ obterNome(alien) }}">
                 <div class="imagem-container">
+
                     <img ng-src="{{ obterImagemAlien(alien) }}" alt="{{ obterNome(alien) }}" loading="lazy"
                         referrerpolicy="no-referrer" onerror="this.src='assets/images/placeholder.png'">
+
                 </div>
 
-                <div class="card-conteudo">
+                <div class="card-conteudo card-resumido">
                     <h2>{{ obterNome(alien) }}</h2>
 
                     <span class="tag-especie">
                         {{ obterEspecie(alien) }}
                     </span>
 
-                    <p class="descricao">
-                        {{ gerarDescricao(alien) }}
+                    <p class="ver-detalhes">
+                        Clique para ver mais sobre {{ obterNome(alien) }}.
                     </p>
-
-                    <div class="info">
-                        <p>
-                            <strong>Planeta:</strong>
-                            {{ obterPlaneta(alien) }}
-                        </p>
-
-                        <p>
-                            <strong>Força:</strong>
-                            {{ obterForca(alien) }}
-                        </p>
-                    </div>
                 </div>
             </article>
         </section>
@@ -106,6 +99,50 @@
                 <p>Tente buscar por outro nome, espécie ou planeta.</p>
             </div>
         </section>
+
+        <div class="modal-overlay" ng-if="modalAberto && alienSelecionado" ng-click="fecharModal()" role="dialog"
+            aria-modal="true" aria-label="Detalhes do alien">
+            <article class="modal-alien" ng-click="$event.stopPropagation()">
+                <button type="button" class="modal-fechar" ng-click="fecharModal()" aria-label="Fechar detalhes">
+                    &times;
+                </button>
+
+                <div class="modal-imagem-container">
+                    <img ng-src="{{ obterImagemAlien(alienSelecionado) }}" alt="{{ obterNome(alienSelecionado) }}"
+                        referrerpolicy="no-referrer" onerror="this.src='assets/images/placeholder.png'">
+                </div>
+
+                <div class="modal-conteudo">
+                    <h2>{{ obterNome(alienSelecionado) }}</h2>
+
+                    <span class="tag-especie">
+                        {{ obterEspecie(alienSelecionado) }}
+                    </span>
+
+                    <p class="modal-descricao">
+                        {{ gerarDescricao(alienSelecionado) }}
+                    </p>
+
+                    <div class="modal-informacoes">
+                        <div class="modal-informacao">
+                            <span>Planeta de origem</span>
+
+                            <strong>
+                                {{ obterPlaneta(alienSelecionado) }}
+                            </strong>
+                        </div>
+
+                        <div class="modal-informacao">
+                            <span>Força base</span>
+
+                            <strong>
+                                {{ obterForca(alienSelecionado) }}
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
 
     </main>
 

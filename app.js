@@ -4,7 +4,7 @@
     AlienController.$inject = ['$scope', '$http'];
 
     function AlienController($scope, $http) {
-
+        //variáveis bases
         $scope.aliens = [];
         $scope.especiesDisponiveis = [];
         $scope.busca = '';
@@ -13,6 +13,11 @@
         $scope.carregando = true;
         $scope.erro = '';
 
+        //variáveis modal
+        $scope.alienSelecionado = null;
+        $scope.modalAberto = false;
+
+        //ações expostas da página
         $scope.filtrarAliens = filtrarAliens;
         $scope.limparFiltros = limparFiltros;
         $scope.obterImagemAlien = obterImagemAlien;
@@ -21,6 +26,8 @@
         $scope.obterEspecie = obterEspecie;
         $scope.obterPlaneta = obterPlaneta;
         $scope.obterForca = obterForca;
+        $scope.abrirModal = abrirModal;
+        $scope.fecharModal = fecharModal;
 
         var urlApi = 'https://gist.githubusercontent.com/edvandosimplicio/88943f13c2effed750ed3081deca4ab5/raw/53a8b0c16344eed3acb0f3bcfaae7026d559ad7d/apiv2-ben10-aliens.json';
 
@@ -140,6 +147,20 @@
 
         function obterForca(alien) {
             return alien.strength || alien.forcaBase || alien.forca || 85;
+        }
+
+        function abrirModal(alien) {
+            $scope.alienSelecionado = alien
+            $scope.modalAberto = true;
+
+            document.body.classList.add('modal-aberto');
+        }
+
+        function fecharModal() {
+            $scope.modalAberto = false;
+            $scope.alienSelecionado = null;
+
+            document.body.classList.remove('modal-aberto');
         }
 
         function normalizarTexto(texto) {
