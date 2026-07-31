@@ -1,170 +1,168 @@
-(function () {
-    'use strict'; angular.module('omnitrixApp', []).controller('AlienController', AlienController);
 
-    AlienController.$inject = ['$scope', '$http'];
+angular.module('omnitrixApp', []).controller('AlienController', AlienController);
 
-    function AlienController($scope, $http) {
-        //variáveis bases
-        $scope.aliens = [];
-        $scope.especiesDisponiveis = [];
-        $scope.busca = '';
-        $scope.especieSelecionada = '';
-        $scope.forcaMinima = null;
+AlienController.$inject = ['$scope', '$http'];
+
+function AlienController($scope, $http) {
+    //variáveis representativas
+    $scope.aliens = [];
+    $scope.especiesDisponiveis = [];
+    $scope.busca = '';
+    $scope.especieSelecionada = '';
+    $scope.forcaMinima = null;
+    $scope.carregando = true;
+    $scope.erro = '';
+
+    //variáveis representativas pro modal
+    $scope.alienSelecionado = null;
+    $scope.modalAberto = false;
+
+    //comportamentos da página
+    $scope.filtrarAliens = filtrarAliens;
+    $scope.limparFiltros = limparFiltros;
+    $scope.obterImagemAlien = obterImagemAlien;
+    $scope.gerarDescricao = gerarDescricao;
+    $scope.obterNome = obterNome;
+    $scope.obterEspecie = obterEspecie;
+    $scope.obterPlaneta = obterPlaneta;
+    $scope.obterForca = obterForca;
+    $scope.abrirModal = abrirModal;
+    $scope.fecharModal = fecharModal;
+
+    var urlApi = 'https://gist.githubusercontent.com/edvandosimplicio/88943f13c2effed750ed3081deca4ab5/raw/53a8b0c16344eed3acb0f3bcfaae7026d559ad7d/apiv2-ben10-aliens.json';
+
+    carregarAliens();
+
+    function carregarAliens() {
         $scope.carregando = true;
         $scope.erro = '';
 
-        //variáveis modal
-        $scope.alienSelecionado = null;
-        $scope.modalAberto = false;
+        $http.get(urlApi)
+            .then(function (response) {
+                $scope.aliens = response.data || [];
+                montarListaDeEspecies();
 
-        //ações expostas da página
-        $scope.filtrarAliens = filtrarAliens;
-        $scope.limparFiltros = limparFiltros;
-        $scope.obterImagemAlien = obterImagemAlien;
-        $scope.gerarDescricao = gerarDescricao;
-        $scope.obterNome = obterNome;
-        $scope.obterEspecie = obterEspecie;
-        $scope.obterPlaneta = obterPlaneta;
-        $scope.obterForca = obterForca;
-        $scope.abrirModal = abrirModal;
-        $scope.fecharModal = fecharModal;
-
-        var urlApi = 'https://gist.githubusercontent.com/edvandosimplicio/88943f13c2effed750ed3081deca4ab5/raw/53a8b0c16344eed3acb0f3bcfaae7026d559ad7d/apiv2-ben10-aliens.json';
-
-        carregarAliens();
-
-        function carregarAliens() {
-            $scope.carregando = true;
-            $scope.erro = '';
-
-            $http.get(urlApi)
-                .then(function (response) {
-                    $scope.aliens = response.data || [];
-                    montarListaDeEspecies();
-
-                    console.log('Aliens carregados:', $scope.aliens);
-                })
-                .catch(function (error) {
-                    console.error('Erro ao carregar aliens:', error);
-                    $scope.erro = 'Não foi possível carregar os aliens. Verifique sua conexão ou tente novamente.';
-                })
-                .finally(function () {
-                    $scope.carregando = false;
-                });
-        }
-
-        function montarListaDeEspecies() {
-            var especies = {};
-
-            $scope.aliens.forEach(function (alien) {
-                var especie = obterEspecie(alien);
-
-                if (especie) {
-                    especies[especie] = true;
-                }
+                console.log('Aliens carregados:', $scope.aliens);
+            })
+            .catch(function (error) {
+                console.error('Erro ao carregar aliens:', error);
+                $scope.erro = 'Não foi possível carregar os aliens. Verifique sua conexão ou tente novamente.';
+            })
+            .finally(function () {
+                $scope.carregando = false;
             });
-
-            $scope.especiesDisponiveis = Object.keys(especies).sort();
-        }
-
-        function filtrarAliens(alien) {
-            var textoBusca = normalizarTexto($scope.busca);
-
-            var nome = normalizarTexto(obterNome(alien));
-            var especie = normalizarTexto(obterEspecie(alien));
-            var planeta = normalizarTexto(obterPlaneta(alien));
-
-            var passouNaBusca = true;
-
-            if (textoBusca) {
-                passouNaBusca = nome.includes(textoBusca) || especie.includes(textoBusca) || planeta.includes(textoBusca);
-            }
-
-            var passouNaEspecie = true;
-
-            if ($scope.especieSelecionada) {
-                passouNaEspecie = obterEspecie(alien) === $scope.especieSelecionada;
-            }
-
-            var passouNaForca = true;
-
-            if ($scope.forcaMinima) {
-                passouNaForca = obterForca(alien) >= $scope.forcaMinima;
-            }
-
-            return passouNaBusca && passouNaEspecie && passouNaForca;
-        }
-
-        function limparFiltros() {
-            $scope.busca = '';
-            $scope.especieSelecionada = '';
-            $scope.forcaMinima = null;
-        }
-
-        function obterImagemAlien(alien) {
-            return alien.image || 'assets/images/placeholder.png';
-        }
-
-        function gerarDescricao(alien) {
-            if (alien.description) {
-                return alien.description;
-            }
-
-            var nome = obterNome(alien);
-            var especie = obterEspecie(alien);
-            var planeta = obterPlaneta(alien);
-            var forca = obterForca(alien);
-
-            var classificacao = '';
-
-            if (forca >= 90) {
-                classificacao = 'É uma das transformações mais poderosas disponíveis no Omnitrix.';
-            } else if (forca >= 70) {
-                classificacao = 'Possui ótimo equilíbrio entre força, resistência e versatilidade.';
-            } else if (forca >= 50) {
-                classificacao = 'É uma transformação útil para situações estratégicas.';
-            } else {
-                classificacao = 'Apesar de sua força menor, pode ser decisivo quando usado com inteligência.';
-            }
-
-            return nome + ' é um alien da espécie ' + especie +
-                ', originário de ' + planeta +
-                '. Sua força base é ' + forca + '. ' +
-                classificacao;
-        }
-
-        function obterNome(alien) {
-            return alien.name || alien.nome || 'Alien desconhecido';
-        }
-
-        function obterEspecie(alien) {
-            return alien.species || alien.especie || 'Espécie desconhecida';
-        }
-
-        function obterPlaneta(alien) {
-            return alien.homeworld || alien.planetaOrigem || 'Desconhecido';
-        }
-
-        function obterForca(alien) {
-            return alien.strength || alien.forcaBase || alien.forca || 85;
-        }
-
-        function abrirModal(alien) {
-            $scope.alienSelecionado = alien
-            $scope.modalAberto = true;
-
-            document.body.classList.add('modal-aberto');
-        }
-
-        function fecharModal() {
-            $scope.modalAberto = false;
-            $scope.alienSelecionado = null;
-
-            document.body.classList.remove('modal-aberto');
-        }
-
-        function normalizarTexto(texto) {
-            return (texto || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-        }
     }
-})();
+
+    function montarListaDeEspecies() {
+        let especies = {};
+
+        $scope.aliens.forEach(function (alien) {
+            let especie = obterEspecie(alien);
+
+            if (especie) {
+                especies[especie] = true;
+            }
+        });
+
+        $scope.especiesDisponiveis = Object.keys(especies).sort();
+    }
+
+    function filtrarAliens(alien) {
+        let textoBusca = normalizarTexto($scope.busca);
+
+        let nome = normalizarTexto(obterNome(alien));
+        let especie = normalizarTexto(obterEspecie(alien));
+        let planeta = normalizarTexto(obterPlaneta(alien));
+
+        let passouNaBusca = true;
+        let passouNaEspecie = true;
+        let passouNaForca = true;
+
+        if (textoBusca) {
+            passouNaBusca = nome.includes(textoBusca) || especie.includes(textoBusca) || planeta.includes(textoBusca);
+        }
+
+        if ($scope.especieSelecionada) {
+            passouNaEspecie = obterEspecie(alien) === $scope.especieSelecionada;
+        }
+
+        if ($scope.forcaMinima) {
+            passouNaForca = obterForca(alien) >= $scope.forcaMinima;
+        }
+
+        return passouNaBusca && passouNaEspecie && passouNaForca;
+    }
+
+    function limparFiltros() {
+        $scope.busca = '';
+        $scope.especieSelecionada = '';
+        $scope.forcaMinima = null;
+    }
+
+    function obterImagemAlien(alien) {
+        return alien.image || 'assets/images/placeholder.png';
+    }
+
+    function gerarDescricao(alien) {
+
+        if (alien.description) {
+            return alien.description;
+        }
+
+        let nome = obterNome(alien);
+        let especie = obterEspecie(alien);
+        let planeta = obterPlaneta(alien);
+        let forca = obterForca(alien);
+
+        let classificacao = '';
+
+        if (forca >= 90) {
+            classificacao = 'É uma das transformações mais poderosas disponíveis no Omnitrix.';
+        } else if (forca >= 70) {
+            classificacao = 'Possui ótimo equilíbrio entre força, resistência e versatilidade.';
+        } else if (forca >= 50) {
+            classificacao = 'É uma transformação útil para situações estratégicas.';
+        } else {
+            classificacao = 'Apesar de sua força menor, pode ser decisivo quando usado com inteligência.';
+        }
+
+        return nome + ' é um alien da espécie ' + especie +
+            ', originário de ' + planeta +
+            '. Sua força base é ' + forca + '. ' +
+            classificacao;
+    }
+
+    function obterNome(alien) {
+        return alien.name || 'Alien desconhecido';
+    }
+
+    function obterEspecie(alien) {
+        return alien.species || 'Espécie desconhecida';
+    }
+
+    function obterPlaneta(alien) {
+        return alien.homeworld || 'Desconhecido';
+    }
+
+    function obterForca(alien) {
+        return alien.strength || 85;
+    }
+
+    function abrirModal(alien) {
+        $scope.alienSelecionado = alien
+        $scope.modalAberto = true;
+
+        document.body.classList.add('modal-aberto');
+    }
+
+    function fecharModal() {
+        $scope.modalAberto = false;
+        $scope.alienSelecionado = null;
+
+        document.body.classList.remove('modal-aberto');
+    }
+
+    function normalizarTexto(texto) {
+        return (texto || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+}

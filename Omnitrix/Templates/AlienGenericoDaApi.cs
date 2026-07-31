@@ -27,7 +27,7 @@ public class AlienGenericoDaApi : AlienBase
         Thread.Sleep(3000);
         Console.WriteLine($"Foi consumido um valor de energia equivalente a {tempoConsumido.Minutes} minutos e {tempoConsumido.Seconds} segundos.");
         Thread.Sleep(4500);
-        Console.WriteLine($"Restam {tempoRestante.Minutes} minutos e {tempoRestante.Seconds} da transformação.");
+        Console.WriteLine($"Restam {tempoRestante.Minutes} minutos e {tempoRestante.Seconds} segundos da transformação.");
         Thread.Sleep(4500);
         Console.Clear();
 

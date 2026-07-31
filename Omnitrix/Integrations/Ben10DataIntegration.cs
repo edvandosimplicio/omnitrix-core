@@ -7,7 +7,7 @@ using Microsoft.Data.SqlClient;
 
 namespace Omnitrix.Integrations;
 
-// 1. Um molde simples só para "ler" o JSON que vem da internet
+// molde de leitura do JSON externo
 public class AliensApiResponse
 {
     [JsonPropertyName("name")]
@@ -23,15 +23,14 @@ public class AliensApiResponse
     public int? ForcaBase { get; set; }
 }
 
-// 2. A classe principal que conecta a Internet ao seu Banco SQL
+// classe principal que conecta nosso código ao banco
 public class Ben10DataIntegration
 {
 
-    // Para fins didáticos eu vou deixar a senha exposta aqui mesmo.
-    // Entendo que o ideal seria jogar em um appsettings.json ou algo do tipo.
+    // ideal seria jogar em um appsettings.json ou algo do tipo.
     private readonly string _connectionString = "Server=localhost,1433;Database=OmnitrixDB;User Id=sa;Password=1q2w3e4r@#$;TrustServerCertificate=True;";
 
-    // O HttpClient é o "navegador" interno do C#, responsável por ir na web
+    // O HttpClient é o "navegador" interno do C#
     private readonly HttpClient _httpClient = new();
 
     public async Task<AliensApiResponse[]> ObterAliensDaApiAsync()

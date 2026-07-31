@@ -29,9 +29,8 @@ public class Relogio
 
     public void AtualizarBateriaPeloTempoDoAlien(AlienBase alien)
     {
-        const int tempoTotalTransformacao = 600; // 10 minutos
 
-        int bateriaCalculada = alien.TempoMaximoTransformacaoEmSegundos * 100 / tempoTotalTransformacao;
+        int bateriaCalculada = alien.TempoMaximoTransformacaoEmSegundos * 100 / 600;
 
         if (bateriaCalculada < 0)
         {

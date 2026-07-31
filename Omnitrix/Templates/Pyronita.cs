@@ -5,7 +5,7 @@ namespace Omnitrix.Templates;
 
 public class Pyronita : AlienBase
 {
-    public int TemperaturaChama { get; set; } = 1500;
+    private int TemperaturaChama { get; set; } = 1500;
     public Pyronita(string nome, string planetaOrigem, int forcaBase) : base(nome, "Pyronita", planetaOrigem, forcaBase)
     {
     }
